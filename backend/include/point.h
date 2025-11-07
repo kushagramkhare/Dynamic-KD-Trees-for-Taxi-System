@@ -13,10 +13,14 @@ struct point {
         double dy = y - other.y;
         return dx * dx + dy * dy;
     }
+
+    bool operator==(const point& other) const {
+        return (x == other.x) && (y == other.y);
+    }
     
     double distance(const point& other) const {
         return std::sqrt(distanceSquared(other));
     }
 };
 
-#endif // POINT_H
+#endif 
