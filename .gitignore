@@ -1,1 +1,11 @@
+<<<<<<< HEAD
 *.vscode
+=======
+# Node modules
+node_modules/
+frontend-ui/node_modules/
+frontend-core/node_modules/
+
+# Build outputs
+*.exe
+>>>>>>> frontend-dev
