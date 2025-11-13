@@ -2,7 +2,6 @@
 #define DYNAMIC_KD_TREE_H
 
 #include "kdnode.h"
-#include "point.h"
 #include <iostream>
 #include <vector>
 #include <algorithm>
