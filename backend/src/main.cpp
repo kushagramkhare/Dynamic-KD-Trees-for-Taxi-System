@@ -143,7 +143,7 @@ int main(int argc, char* argv[]) {
             for (int i = 0; i < taxiCount; i++) {
                 TaxiInfo info;
                 info.node = nearest[i];
-                info.euclideanDist = sqrt(nearest[i].distanceSquared(qx, qy));
+                info.euclideanDist = sqrt(nearest[i].distanceSquared(query));
                 info.path = roadNetwork.dijkstraPath({nearest[i].x, nearest[i].y}, {qx, qy});
                 info.graphDist = info.path.size() - 1;
                 taxiInfos.push_back(info);
