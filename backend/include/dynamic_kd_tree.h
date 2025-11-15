@@ -44,6 +44,12 @@ private:
     void deleteTree(KDNode* node);
     void knnHelper(KDNode* node, const point& query, int depth,
                    priority_queue<NodeDist>& pq, int k);
+    void nearestNeighbor(KDNode* node,
+                         const point& query,
+                         int depth,
+                         KDNode*& best,
+                         double& bestDist);
+              
 
 public:
     DynamicKDTree();

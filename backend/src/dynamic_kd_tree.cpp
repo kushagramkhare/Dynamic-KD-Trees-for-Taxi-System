@@ -440,3 +440,33 @@ void DynamicKDTree::getAllPointsHelper(KDNode* node, vector<point>& points) {
     getAllPointsHelper(node->left, points);
     getAllPointsHelper(node->right, points);
 }
+
+void DynamicKDTree::nearestNeighbor(KDNode* node,
+                                    const point& query,
+                                    int depth,
+                                    KDNode*& best,
+                                    double& bestDist) {
+    if (!node) return;
+
+    double dist = sqrt(pow(node->p.x - query.x, 2) +
+                       pow(node->p.y - query.y, 2));
+
+    if (!best || dist < bestDist) {
+        best = node;
+        bestDist = dist;
+    }
+
+    int diff = (depth % 2 == 0)
+               ? query.x - node->p.x
+               : query.y - node->p.y;
+
+    KDNode* nearChild = (diff < 0) ? node->left : node->right;
+    KDNode* farChild  = (diff < 0) ? node->right : node->left;
+
+    nearestNeighbor(nearChild, query, depth + 1, best, bestDist);
+
+    if (diff * diff < bestDist) {
+        nearestNeighbor(farChild, query, depth + 1, best, bestDist);
+    }
+}
+
