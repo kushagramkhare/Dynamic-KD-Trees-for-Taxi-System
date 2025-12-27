@@ -434,6 +434,66 @@ void DynamicKDTree::getAllPoints(vector<point>& points) {
     getAllPointsHelper(root, points);
 }
 
+bool DynamicKDTree::validateKDTree(KDNode* node, int depth,
+                                   const point& minBound,
+                                   const point& maxBound) {
+    if (!node) return true;
+
+    if (node->p.x < minBound.x || node->p.x > maxBound.x ||
+        node->p.y < minBound.y || node->p.y > maxBound.y) {
+        return false;
+    }
+
+    if (depth % 2 == 0) {
+        point leftMax = maxBound;
+        leftMax.x = node->p.x;
+        point rightMin = minBound;
+        rightMin.x = node->p.x;
+
+        return validateKDTree(node->left, depth + 1, minBound, leftMax) &&
+               validateKDTree(node->right, depth + 1, rightMin, maxBound);
+    } else {
+        point leftMax = maxBound;
+        leftMax.y = node->p.y;
+        point rightMin = minBound;
+        rightMin.y = node->p.y;
+
+        return validateKDTree(node->left, depth + 1, minBound, leftMax) &&
+               validateKDTree(node->right, depth + 1, rightMin, maxBound);
+    }
+}
+
+int DynamicKDTree::rangeCount(KDNode* node,
+                              const point& low,
+                              const point& high,
+                              int depth) {
+    if (!node) return 0;
+
+    int count = 0;
+
+    if (node->p.x >= low.x && node->p.x <= high.x &&
+        node->p.y >= low.y && node->p.y <= high.y) {
+        count++;
+    }
+
+    if (depth % 2 == 0) {
+        // Split on x
+        if (low.x <= node->p.x)
+            count += rangeCount(node->left, low, high, depth + 1);
+        if (high.x >= node->p.x)
+            count += rangeCount(node->right, low, high, depth + 1);
+    } else {
+        // Split on y
+        if (low.y <= node->p.y)
+            count += rangeCount(node->left, low, high, depth + 1);
+        if (high.y >= node->p.y)
+            count += rangeCount(node->right, low, high, depth + 1);
+    }
+
+    return count;
+}
+
+
 void DynamicKDTree::getAllPointsHelper(KDNode* node, vector<point>& points) {
     if (!node) return;
     points.push_back(node->p);

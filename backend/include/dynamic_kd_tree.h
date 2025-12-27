@@ -44,7 +44,14 @@ private:
     void deleteTree(KDNode* node);
     void knnHelper(KDNode* node, const point& query, int depth,
                    priority_queue<NodeDist>& pq, int k);
-
+    bool validateKDTree(KDNode* node, int depth,
+                        const point& minBound,
+                        const point& maxBound);
+    int rangeCount(KDNode* node,
+                   const point& low,
+                   const point& high,
+                   int depth);
+                   
 public:
     DynamicKDTree();
     DynamicKDTree(const vector<point>& initialPoints);
